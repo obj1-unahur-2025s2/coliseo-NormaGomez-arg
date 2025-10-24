@@ -1,29 +1,60 @@
 import armas.*
+import grupos.*
 
 class Mirmillon {
-  var property vidas = 100
-  var property fuerza 
-  method armadura() = 10 + (5 +( 15 *0.1))
-  method arma() = ArmaDeFilo
-  method usaCasco() = true
-  method usaEscudo() = true
+  var vidas = 100
+  const fuerza 
+  var arma
+  var armadura
+  method vidas() = vidas
+  method cambiarArmadura(otraArmadura) {armadura = otraArmadura}
+  method cambiarArma(otraArma){arma = otraArma}
   method destreza() = 15
-  method ataca(){}
+  method ataca(atacado){atacado.recibirAtaque(self.danio(atacado))}
   method danio(atacado) = self.poderAtaque()- atacado.defensa()
-  method poderAtaque() = self.arma().poder() + self.fuerza()
-  method defensa() = self.armadura() + self.destreza()
+  method recibirAtaque(danio) {vidas = vidas - danio}
+  method poderAtaque() = arma.poder() + fuerza
+  method defensa() = armadura.armadura(self)+ self.destreza()
+
+  method crearGrupo(otroGladiador){
+    const grupo = new Grupo(nombre= "Mirmillolandia")
+    grupo.agregarMiembro(self)
+    grupo.agregarMiembro(otroGladiador)
+  }
+  method recuperaVidas(cantidad) {
+    vidas = cantidad
+  }
+    
+  
 
   
 }
 
 class Dimachaerus {
-  var property vidas = 100
-  var property armas = []
-  var property destreza
+  var vidas = 100
+  var armas = []
+  var destreza
+  method vidas() = vidas
   method fuerza() = 10
-  method ataca() = destreza + 1
+  method agragarArmas(unArma) {
+    armas.add(unArma)
+  }
+  method ataca(atacado){
+    atacado.recibirAtaque(self.danio(atacado)) 
+    destreza = destreza + 1
+  }
   method danio(atacado) = self.poderAtaque()- atacado.defensa()
-  method poderAtaque() = self.fuerza() + self.armas().sum({ a => a.poder() })
-  method defensa(gladiador)= self.destreza() / 2
+  method recibirAtaque(danio) {vidas = vidas - danio}
+  method poderAtaque() = self.fuerza() + armas.sum({ a => a.poder() })
+  method defensa()= destreza / 2
 
+  method crearGrupo(otroGladiador){
+    const nombre = "D-" + (self.poderAtaque() + otroGladiador.poderAtaque()).toString()
+    const grupo = new Grupo(nombre= nombre)
+    grupo.agregarMiembro(self)
+    grupo.agregarMiembro(otroGladiador)
+  }
+  method recuperaVidas(cantidad) {
+    vidas = cantidad
+  }
 }

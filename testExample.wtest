@@ -3,8 +3,8 @@ import gladiadores.*
 import grupos.*
 
 describe "group of tests " {
-const glad1 = new Mirmillon (fuerza = 10)
-const glad2 = new Mirmillon (fuerza = 15)
+const glad1 = new Mirmillon (fuerza = 10, arma= arma1, armadura= escudo)
+const glad2 = new Mirmillon (fuerza = 15, arma= arma2, armadura= casco)
 const glad3 = new Dimachaerus (armas = [arma1, arma2], destreza = 20)
 const glad4 = new Dimachaerus (armas = [arma1, arma2], destreza = 15)
 const arma1 = new ArmaDeFilo (filo = 1, longitud = 3)
@@ -18,5 +18,9 @@ const grupo2 = new Grupo (nombre ="2", cantDePeleas = 0, miembros = [glad3, glad
   test "nombre Grupo 2" {
     grupo2.definirNombre()
     assert.equals("D-32", grupo2.nombre())
+  }
+  test "gladiador 1 ataca a gladiador 3, lo deja con una vida de 87"{
+     glad1.ataca(glad3)
+     assert.equals(97, glad3.vidas())
   }
 }

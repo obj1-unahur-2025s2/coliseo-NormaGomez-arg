@@ -1,20 +1,16 @@
 class Grupo{
-    var property nombre
-    var property cantDePeleas 
+    var nombre
+    var cantDePeleas = 0
     const property miembros = []
-    const creadorEsMirmillon
-    const property colegas = []
-    method agregarMiembro(gladiador) {self.miembros().add(gladiador)}
-    method quitarMiembro(gladiador) {self.miembros().remove(gladiador)}
-    method campeon() =(self.miembros().max({g=>g.fuerza()}))  
-    method poderAtaqueColegas() = self.colegas().sum({ c => c.poderAtaque() })
-    method definirNombre() {
-    if (creadorEsMirmillon) {
-      nombre = "mirmillolandia"}
-    else {
-      nombre = "D-" + self.poderAtaqueColegas()
-    }
-  }
-
     
+    method agregarMiembro(gladiador) {miembros.add(gladiador)}
+    method quitarMiembro(gladiador) {miembros.remove(gladiador)}
+    method campeon() =(self.puedenCombatir().max({g=>g.fuerza()}))  
+    method puedenCombatir() = miembros.filter({g=> g.vidas()>0})
+    method ataca(atacado) {
+      self.campeon().ataca(atacado)
+      cantDePeleas = cantDePeleas + 1
+    }
+    
+      
 }
